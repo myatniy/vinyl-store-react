@@ -6,9 +6,9 @@ const {TabPane} = Tabs;
 
 export default function ModalRecordEditor() {
     const {
-        dispatch, artists, countries, formats, genres, labels
+        dispatch, artists, countries, formats, genres, labels, styles
     } = useStoreon(
-        "artists", "countries", "formats", "genres", "labels"
+        "artists", "countries", "formats", "genres", "labels", "styles"
     );
 
     return (
@@ -65,7 +65,13 @@ export default function ModalRecordEditor() {
                 Content of Tab Pane 6
             </TabPane>
             <TabPane tab="Стили" key="7">
-                Content of Tab Pane 7
+                <BodyModal
+                    dispatch={dispatch}
+                    records={styles}
+                    postEvent={"styles/post"}
+                    putEvent={"styles/put"}
+                    deleteEvent={"styles/delete"}
+                />
             </TabPane>
             <TabPane tab="Композиции" key="8">
                 Content of Tab Pane 8
