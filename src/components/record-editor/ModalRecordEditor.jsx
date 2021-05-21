@@ -1,19 +1,16 @@
 import {Tabs} from "antd";
-import {useState} from "react";
 import BodyModal from "./BodyModal";
 import {useStoreon} from "storeon/react";
 
 const {TabPane} = Tabs;
 
 export default function ModalRecordEditor() {
-    const {dispatch, artists} = useStoreon("artists");
-    const [tabKey, setTabKey] = useState("1");
+    const {dispatch, artists, countries} = useStoreon("artists", "countries");
 
     return (
         <Tabs
             defaultActiveKey="1"
             centered
-            onChange={(activeKey) => setTabKey(activeKey)}
         >
             <TabPane tab="Исполнители" key="1">
                 <BodyModal
@@ -25,7 +22,13 @@ export default function ModalRecordEditor() {
                 />
             </TabPane>
             <TabPane tab="Страны" key="2">
-                <BodyModal type={tabKey}/>
+                <BodyModal
+                    dispatch={dispatch}
+                    records={countries}
+                    postEvent={"countries/post"}
+                    putEvent={"countries/put"}
+                    deleteEvent={"countries/delete"}
+                />
             </TabPane>
             <TabPane tab="Форматы" key="3">
                 Content of Tab Pane 3
