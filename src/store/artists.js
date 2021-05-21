@@ -1,4 +1,5 @@
 import {deleteRecord, getRecords, postRecord, putRecord} from "../api";
+import {getArrayWithoutDeletedObject} from "../utils";
 
 export function artists(store) {
     store.on("@init", async () => {
@@ -43,24 +44,12 @@ export function artists(store) {
     });
 
     store.on("artists/delete", async ({artists}, value) => {
-        const copyArtists = artists;
-        let idLocal;
-        let indexLocal;
+        const [newArr, id] = getArrayWithoutDeletedObject(artists, value);
 
-        for (let i = 0; i < copyArtists.length; i++) {
-            if (copyArtists[i].value === value) {
-                idLocal = copyArtists[i].id;
-                indexLocal = i;
-                break;
-            }
-        }
-
-        copyArtists.splice(indexLocal, 1);
-
-        const response = await deleteRecord("/artist", idLocal);
+        const response = await deleteRecord("/artist", id);
 
         if (response.status === 200) {
-            store.dispatch("artists/loaded", copyArtists);
+            store.dispatch("artists/loaded", newArr);
         } else {
             console.error("Something went wrong: ", response);
         }
