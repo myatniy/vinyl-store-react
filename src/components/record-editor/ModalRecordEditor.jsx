@@ -5,7 +5,11 @@ import {useStoreon} from "storeon/react";
 const {TabPane} = Tabs;
 
 export default function ModalRecordEditor() {
-    const {dispatch, artists, countries, formats} = useStoreon("artists", "countries", "formats");
+    const {
+        dispatch, artists, countries, formats, genres
+    } = useStoreon(
+        "artists", "countries", "formats", "genres"
+    );
 
     return (
         <Tabs
@@ -40,7 +44,13 @@ export default function ModalRecordEditor() {
                 />
             </TabPane>
             <TabPane tab="Жанры" key="4">
-                Content of Tab Pane 4
+                <BodyModal
+                    dispatch={dispatch}
+                    records={genres}
+                    postEvent={"genres/post"}
+                    putEvent={"genres/put"}
+                    deleteEvent={"genres/delete"}
+                />
             </TabPane>
             <TabPane tab="Лейблы" key="5">
                 Content of Tab Pane 5
