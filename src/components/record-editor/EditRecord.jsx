@@ -1,10 +1,11 @@
 import {Form, Select, Button, Input, message} from "antd";
 import {useState} from "react";
 import {findObject} from "../../utils";
+import isValidDate from "../../utils/isValidDate";
 
 const {Option} = Select;
 
-export default function EditRecord({dispatch, records, putEvent, deleteEvent}) {
+export default function EditRecord({dispatch, records, putEvent, deleteEvent, isDate}) {
     const [form] = Form.useForm();
     const [operationType, setOperationType] = useState("edit");
 
@@ -13,6 +14,11 @@ export default function EditRecord({dispatch, records, putEvent, deleteEvent}) {
         : setOperationType(() => "delete");
 
     const onFinish = ({existingValue, operationType, newValue}) => {
+        if (isDate && operationType === "edit") {
+            if (isValidDate(newValue) === false)
+                return message.error(`Формат даты должен быть равен [yyyy-mm-dd]`);
+        }
+
         if (operationType === "edit" && existingValue !== undefined) {
             if (findObject(records, newValue) !== undefined) {
                 return message.error("Запись с таким значеним уже существует");

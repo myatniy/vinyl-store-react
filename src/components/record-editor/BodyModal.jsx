@@ -2,7 +2,7 @@ import {Divider, Row, Col} from "antd";
 import EditRecord from "./EditRecord";
 import NewRecord from "./NewRecord";
 
-export default function BodyModal({dispatch, records, postEvent, putEvent, deleteEvent}) {
+export default function BodyModal({dispatch, records, postEvent, putEvent, deleteEvent, isDate}) {
     return (
         <Row justify="space-around" align="middle">
             <Col
@@ -15,7 +15,7 @@ export default function BodyModal({dispatch, records, postEvent, putEvent, delet
                 }}
             >
                 <h2>Новая запись</h2>
-                <NewRecord records={records} dispatch={dispatch} postEvent={postEvent}/>
+                <NewRecord records={records} dispatch={dispatch} postEvent={postEvent} isDate={isDate}/>
             </Col>
 
             <Col
@@ -39,7 +39,13 @@ export default function BodyModal({dispatch, records, postEvent, putEvent, delet
                     alignItems: "center"
                 }}
             >
-                <EditRecord dispatch={dispatch} records={records} putEvent={putEvent} deleteEvent={deleteEvent} />
+                <EditRecord
+                    dispatch={dispatch}
+                    records={records}
+                    putEvent={putEvent}
+                    deleteEvent={deleteEvent}
+                    isDate={isDate}
+                />
             </Col>
         </Row>
     );

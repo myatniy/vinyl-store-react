@@ -1,12 +1,18 @@
 import {message, Form, Input, Button} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {findObject} from "../../utils";
+import isValidDate from "../../utils/isValidDate";
 
-export default function NewRecord({records, dispatch, postEvent}) {
+export default function NewRecord({records, dispatch, postEvent, isDate}) {
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
         const isThereIdenticalValue = findObject(records, values["postRecord"]);
+
+        if (isDate) {
+            if (isValidDate(values["postRecord"]) === false)
+                return message.error(`Формат даты должен быть равен [yyyy-mm-dd]`);
+        }
 
         if (isThereIdenticalValue === undefined) {
             dispatch(postEvent, values["postRecord"]);
