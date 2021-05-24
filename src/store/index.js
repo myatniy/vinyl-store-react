@@ -9,6 +9,7 @@ import {styles} from "./styles";
 import {tracks} from "./tracks";
 import {albumTypes} from "./albumTypes";
 import {releasedDates} from "./releasedDates";
+import {albums} from "./albums";
 
 export const store = createStoreon([
     artists,
@@ -20,5 +21,6 @@ export const store = createStoreon([
     tracks,
     albumTypes,
     releasedDates,
+    albums,
     process.env.NODE_ENV !== "production" && storeonDevtools,
 ]);

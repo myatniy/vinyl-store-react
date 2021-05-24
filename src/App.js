@@ -1,16 +1,22 @@
 import "./App.css";
 import {Layout} from "antd";
 import MainHeader from "./components/main-header/MainHeader";
+import Albums from "./components/albums";
+import {Route, BrowserRouter} from "react-router-dom";
+
 
 function App() {
-    const {Footer, Content} = Layout;
-
     return (
-        <Layout>
-            <MainHeader/>
-            <Content>Content</Content>
-            <Footer>Footer</Footer>
-        </Layout>
+        <BrowserRouter>
+            <Route path="/" exact>
+                <Layout>
+                    <MainHeader/>
+                    <Layout.Content>
+                        <Albums/>
+                    </Layout.Content>
+                </Layout>
+            </Route>
+        </BrowserRouter>
     );
 }
 
