@@ -5,6 +5,7 @@ import getArrayWithoutDeletedObject from "./getArrayWithoutDeletedObject";
 import parseAlbumObject from "./parseAlbumObject";
 import increasePercent from "./increasePercent";
 import decreasePercent from "./decreasePercent";
+import isValueUsed from "./isValueUsed";
 
 export {
     getUrlAndPopulatePayloadForPostRequest,
@@ -14,4 +15,5 @@ export {
     parseAlbumObject,
     increasePercent,
     decreasePercent,
+    isValueUsed
 };

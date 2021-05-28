@@ -1,5 +1,6 @@
 import {deleteRecord, getRecords, postRecord, putRecord} from "../api";
-import {getArrayWithoutDeletedObject} from "../utils";
+import {getArrayWithoutDeletedObject, isValueUsed} from "../utils";
+import {message} from "antd";
 
 export function countries(store) {
     store.on("@init", async () => {
@@ -44,12 +45,16 @@ export function countries(store) {
     });
 
     store.on("countries/delete", async ({countries}, value) => {
+        if (isValueUsed(countries, value, "countryId"))
+            return message.error(`Значение [${value}] используется одним из альбомов. Сначала удалите альбом`);
+
         const [newArr, id] = getArrayWithoutDeletedObject(countries, value);
 
         const response = await deleteRecord("/country", id);
 
         if (response.status === 200) {
             store.dispatch("countries/loaded", newArr);
+            return message.success("Запись удалена");
         } else {
             console.error("Something went wrong: ", response);
         }

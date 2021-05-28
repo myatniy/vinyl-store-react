@@ -1,5 +1,7 @@
 import {deleteRecord, getRecords, postRecord, putRecord} from "../api";
-import {getArrayWithoutDeletedObject} from "../utils";
+import {findObject, getArrayWithoutDeletedObject} from "../utils";
+import {message} from "antd";
+import {albumHasTracklists} from "./albumHasTracklists";
 
 export function tracks(store) {
     store.on("@init", async () => {
@@ -44,12 +46,19 @@ export function tracks(store) {
     });
 
     store.on("tracks/delete", async ({tracks}, value) => {
+        const albumHasTracklists = store.get().albumHasTracklists;
+        const idTmp = findObject(tracks, value).id;
+
+        if (albumHasTracklists.some(item => item.tracklistId === idTmp))
+            return message.error(`Значение [${value}] используется одним из альбомов. Сначала удалите альбом`);
+
         const [newArr, id] = getArrayWithoutDeletedObject(tracks, value);
 
         const response = await deleteRecord("/tracklist", id);
 
         if (response.status === 200) {
             store.dispatch("tracks/loaded", newArr);
+            return message.success("Запись удалена");
         } else {
             console.error("Something went wrong: ", response);
         }

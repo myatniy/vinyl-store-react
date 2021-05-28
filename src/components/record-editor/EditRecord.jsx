@@ -39,7 +39,6 @@ export default function EditRecord({dispatch, records, putEvent, deleteEvent, is
         } else if (operationType === "delete" && existingValue !== undefined) {
             dispatch(deleteEvent, existingValue);
             form.resetFields();
-            return message.success("Запись удалена");
         } else {
             return message.error("Выберите запись");
         }

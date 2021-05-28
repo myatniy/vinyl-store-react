@@ -1,5 +1,6 @@
 import {deleteRecord, getRecords, postRecord, putRecord} from "../api";
-import {getArrayWithoutDeletedObject} from "../utils";
+import {findObject, getArrayWithoutDeletedObject} from "../utils";
+import {message} from "antd";
 
 export function formats(store) {
     store.on("@init", async () => {
@@ -44,12 +45,19 @@ export function formats(store) {
     });
 
     store.on("formats/delete", async ({formats}, value) => {
+        const albumHasFormats = store.get().albumHasFormats;
+        const idTmp = findObject(formats, value).id;
+
+        if (albumHasFormats.some(item => item.formatId === idTmp))
+            return message.error(`Значение [${value}] используется одним из альбомов. Сначала удалите альбом`);
+
         const [newArr, id] = getArrayWithoutDeletedObject(formats, value);
 
         const response = await deleteRecord("/format", id);
 
         if (response.status === 200) {
             store.dispatch("formats/loaded", newArr);
+            return message.success("Запись удалена");
         } else {
             console.error("Something went wrong: ", response);
         }
