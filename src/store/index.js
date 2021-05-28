@@ -10,6 +10,8 @@ import {tracks} from "./tracks";
 import {albumTypes} from "./albumTypes";
 import {releasedDates} from "./releasedDates";
 import {albums} from "./albums";
+import {users} from "./users";
+import {albumHasGenres} from "./albumHasGenres";
 
 export const store = createStoreon([
     artists,
@@ -22,5 +24,7 @@ export const store = createStoreon([
     albumTypes,
     releasedDates,
     albums,
+    users,
+    albumHasGenres,
     process.env.NODE_ENV !== "production" && storeonDevtools,
 ]);

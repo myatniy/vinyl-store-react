@@ -1,7 +1,9 @@
 import {Button, Form, Input, Select} from "antd";
 import {useStoreon} from "storeon/react";
+import {postRecord} from "../../api";
+import {parseAlbumObject} from "../../utils";
 
-export default function FirstStep({onNextClick}) {
+export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedAlbum}) {
     const {
         countries,
         releasedDates,
@@ -11,21 +13,26 @@ export default function FirstStep({onNextClick}) {
         albumTypes
     } = useStoreon("countries", "releasedDates", "labels", "styles", "artists", "albumTypes");
 
-    const onFinish = ({Name, IdentifyingNumber, CountryId, ReleasedId, LabelId, StyleId, ArtistId, TypeOfAlbumId}) => {
+    const onFinish = async ({Name, IdentifyingNumber, CountryId, ReleasedId, LabelId, StyleId, ArtistId, TypeOfAlbumId}) => {
         const date = new Date();
         const payload = {
             "Name": Name,
             "IdentifyingNumber": IdentifyingNumber,
-            "CreatedOn": date.toString(),
+            "CreatedOn": date.toISOString(),
+            "UpdatedOn": date.toISOString(),
             "CountryId": countries.find(item => item.value === CountryId).id,
             "ReleasedId": releasedDates.find(item => item.value === ReleasedId).id,
             "LabelId": labels.find(item => item.value === LabelId).id,
+            "AlbumCoverId": 1,
+            "UserId": 4,
             "StyleId": styles.find(item => item.value === StyleId).id,
             "ArtistId": artists.find(item => item.value === ArtistId).id,
             "TypeOfAlbumId": albumTypes.find(item => item.value === TypeOfAlbumId).id,
         }
-        console.log("payload", payload);
-        // onNextClick();
+        const response = await postRecord("/album", payload);
+        setLocalAlbums(oldArr => [...oldArr, parseAlbumObject(response.data)])
+        setLastInsertedAlbum(() => response.data.id);
+        onNextClick();
     };
 
     return <Form

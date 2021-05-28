@@ -4,7 +4,7 @@ import {Table} from "antd";
 import {parseAlbumObject} from "../../utils";
 import columns from "./columns";
 
-export default function Albums() {
+export default function Albums({localAlbums, setLocalAlbums}) {
     const {
         albums,
         albumTypes,
@@ -25,7 +25,6 @@ export default function Albums() {
         "styles"
     );
     const [isLoading, setIsLoading] = useState(true)
-    const [localAlbums, setLocalAlbums] = useState([]);
 
     useEffect(() => {
         if (
@@ -41,7 +40,7 @@ export default function Albums() {
             setLocalAlbums(() => parsedData);
             setIsLoading(() => false);
         }
-    }, [albums, countries, releasedDates, labels, styles, artists, albumTypes]);
+    }, [albums, countries, releasedDates, labels, styles, artists, albumTypes, setLocalAlbums]);
 
     return <Table columns={columns} dataSource={localAlbums} loading={isLoading} pagination={false}/>;
 }
