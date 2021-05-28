@@ -3,9 +3,11 @@ import {useState} from "react";
 import {increasePercent} from "../../utils";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
+import ThirdStep from "./ThirdStep";
+import FourthStep from "./FourthStep";
 
 export default function NewAlbum({setLocalAlbums, loggedUser}) {
-    const stepsAmount = 2;
+    const stepsAmount = 4;
     const [percent, setPercent] = useState(0);
     const [step, setStep] = useState(1);
     const [visible, setVisible] = useState(false);
@@ -51,7 +53,9 @@ export default function NewAlbum({setLocalAlbums, loggedUser}) {
                     loggedUser={loggedUser}
                 />}
                 {step === 2 && <SecondStep lastInsertedAlbum={lastInsertedAlbum} onNextClick={onNextClick}/>}
-                {step === 3 && <div style={{margin: "auto"}}>Успех!</div>}
+                {step === 3 && <ThirdStep lastInsertedAlbum={lastInsertedAlbum} onNextClick={onNextClick}/>}
+                {step === 4 && <FourthStep lastInsertedAlbum={lastInsertedAlbum} onNextClick={onNextClick}/>}
+                {step === 5 && <h2 style={{display: "flex", alignItems: "center", justifyContent: "center"}}>Успех!</h2>}
             </div>
 
             <Row style={{
