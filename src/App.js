@@ -22,7 +22,7 @@ function App() {
                 <Login setLoggedUser={setLoggedUser}/>
             </Route>
             <Route path="/album/:identifyingNumber">
-                <AlbumEditor />
+                <AlbumEditor localAlbums={localAlbums} />
             </Route>
             <Route path="/registration">
                 <Registration/>
