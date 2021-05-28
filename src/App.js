@@ -25,7 +25,7 @@ function App() {
             </Route>
             <Route path="/" exact>
                 <Layout>
-                    {loggedUser.isAdmin && <MainHeader setLocalAlbums={setLocalAlbums}/>}
+                    {loggedUser.isAdmin && <MainHeader loggedUser={loggedUser} setLocalAlbums={setLocalAlbums}/>}
                     <Layout.Content>
                         <Row style={{margin: "20px"}}>
                             <Link to="/login">

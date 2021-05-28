@@ -12,7 +12,8 @@ export default function Albums({localAlbums, setLocalAlbums}) {
         countries,
         labels,
         releasedDates,
-        styles
+        styles,
+        users
     } = useStoreon(
         "albums",
         "albumTypes",
@@ -22,9 +23,10 @@ export default function Albums({localAlbums, setLocalAlbums}) {
         "genres",
         "labels",
         "releasedDates",
-        "styles"
+        "styles",
+        "users"
     );
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (
@@ -34,13 +36,14 @@ export default function Albums({localAlbums, setLocalAlbums}) {
             labels !== undefined &&
             styles !== undefined &&
             artists !== undefined &&
-            albumTypes !== undefined
+            albumTypes !== undefined &&
+            users !== undefined
         ) {
             const parsedData = albums.map(item => parseAlbumObject(item));
             setLocalAlbums(() => parsedData);
             setIsLoading(() => false);
         }
-    }, [albums, countries, releasedDates, labels, styles, artists, albumTypes, setLocalAlbums]);
+    }, [albums, countries, releasedDates, labels, styles, artists, albumTypes, setLocalAlbums, users]);
 
     return <Table columns={columns} dataSource={localAlbums} loading={isLoading} pagination={false}/>;
 }

@@ -2,7 +2,7 @@ import {Layout, Row, Col} from "antd";
 import RecordEditor from "../record-editor";
 import NewAlbum from "../new-album";
 
-export default function MainHeader({setLocalAlbums}) {
+export default function MainHeader({setLocalAlbums, loggedUser}) {
     const colContentStyle = {
         display: "flex",
         justifyContent: "center",
@@ -13,7 +13,7 @@ export default function MainHeader({setLocalAlbums}) {
         <Layout.Header>
             <Row justify="space-between">
                 <Col span={4} style={colContentStyle}>
-                    <NewAlbum setLocalAlbums={setLocalAlbums}/>
+                    <NewAlbum setLocalAlbums={setLocalAlbums} loggedUser={loggedUser}/>
                 </Col>
                 <Col span={4} style={colContentStyle}>
                     <h2 style={{color: "white", margin: "auto"}}>Vinyl Store</h2>

@@ -1,7 +1,7 @@
 import {store} from "../store";
 
 export default function parseAlbumObject(item) {
-    const {countries, releasedDates, labels, styles, artists, albumTypes} = store.get();
+    const {countries, releasedDates, labels, styles, artists, albumTypes, users} = store.get();
 
     return {
         key: item.id,
@@ -13,7 +13,7 @@ export default function parseAlbumObject(item) {
         country: countries.find(country => country.id === item.countryId).value,
         releaseDate: releasedDates.find(releaseDate => releaseDate.id === item.releasedId).value,
         label: labels.find(label => label.id === item.labelId).value,
-        user: "admin",
+        user: users.find(user => user.id === item.userId).username,
         style: styles.find(style => style.id === item.styleId).value,
         artist: artists.find(artist => artist.id === item.artistId).value,
         typeOfAlbum: albumTypes.find(type => type.id === item.typeOfAlbumId).value,

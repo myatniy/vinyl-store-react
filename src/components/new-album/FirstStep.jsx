@@ -3,7 +3,7 @@ import {useStoreon} from "storeon/react";
 import {postRecord} from "../../api";
 import {parseAlbumObject} from "../../utils";
 
-export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedAlbum}) {
+export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedAlbum, loggedUser}) {
     const {
         countries,
         releasedDates,
@@ -24,7 +24,7 @@ export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedA
             "ReleasedId": releasedDates.find(item => item.value === ReleasedId).id,
             "LabelId": labels.find(item => item.value === LabelId).id,
             "AlbumCoverId": 1,
-            "UserId": 4,
+            "UserId": loggedUser.id,
             "StyleId": styles.find(item => item.value === StyleId).id,
             "ArtistId": artists.find(item => item.value === ArtistId).id,
             "TypeOfAlbumId": albumTypes.find(item => item.value === TypeOfAlbumId).id,

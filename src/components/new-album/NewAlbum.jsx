@@ -4,7 +4,7 @@ import {increasePercent} from "../../utils";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 
-export default function NewAlbum({setLocalAlbums}) {
+export default function NewAlbum({setLocalAlbums, loggedUser}) {
     const stepsAmount = 2;
     const [percent, setPercent] = useState(0);
     const [step, setStep] = useState(1);
@@ -48,6 +48,7 @@ export default function NewAlbum({setLocalAlbums}) {
                     setLastInsertedAlbum={setLastInsertedAlbum}
                     setLocalAlbums={setLocalAlbums}
                     onNextClick={onNextClick}
+                    loggedUser={loggedUser}
                 />}
                 {step === 2 && <SecondStep lastInsertedAlbum={lastInsertedAlbum} onNextClick={onNextClick}/>}
                 {step === 3 && <div style={{margin: "auto"}}>Успех!</div>}

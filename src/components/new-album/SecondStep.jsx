@@ -1,17 +1,20 @@
 import {Button, Form, Select, Space} from "antd";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {useStoreon} from "storeon/react";
-import devAxios from "../../devAxios";
 
 export default function SecondStep({onNextClick, lastInsertedAlbum}) {
-    const {genres} = useStoreon("genres");
+    const {dispatch, genres} = useStoreon("genres");
 
     const onFinish = ({genresLocal}) => {
-        for (let i = 0; i < genresLocal.length; i++) {
-            devAxios.post("/albumHasGenre", {
-                "AlbumId": lastInsertedAlbum,
-                "GenreId": genres.find(item => item.value === genresLocal[i].name).id,
-            }).then(res => console.log(res));
+        const uniqueGenres = new Set();
+        genresLocal.map(genre => uniqueGenres.add(genre.name));
+        const arrUniqueGenres = [...uniqueGenres];
+
+        for (let i = 0; i < arrUniqueGenres.length; i++) {
+            dispatch("albumHasGenres/post", {
+              "AlbumId": lastInsertedAlbum,
+              "GenreId": genres.find(item => item.value === arrUniqueGenres[i]).id,
+            });
         }
         onNextClick();
     };
@@ -23,6 +26,7 @@ export default function SecondStep({onNextClick, lastInsertedAlbum}) {
                     <>
                         {fields.map(({key, name, fieldKey, ...restField}) => (
                             <Space key={key} style={{display: "flex", marginBottom: 8}} align="baseline">
+
                                 <Form.Item
                                     {...restField}
                                     name={[name, "name"]}
@@ -44,14 +48,7 @@ export default function SecondStep({onNextClick, lastInsertedAlbum}) {
                                         ))}
                                     </Select>
                                 </Form.Item>
-                                {/*<Form.Item*/}
-                                {/*    {...restField}*/}
-                                {/*    name={[name, 'last']}*/}
-                                {/*    fieldKey={[fieldKey, 'last']}*/}
-                                {/*    rules={[{ required: true, message: 'Missing last name' }]}*/}
-                                {/*>*/}
-                                {/*    <Input placeholder="Last Name" />*/}
-                                {/*</Form.Item>*/}
+
                                 <MinusCircleOutlined onClick={() => remove(name)}/>
                             </Space>
                         ))}
