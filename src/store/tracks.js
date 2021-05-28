@@ -1,7 +1,6 @@
 import {deleteRecord, getRecords, postRecord, putRecord} from "../api";
 import {findObject, getArrayWithoutDeletedObject} from "../utils";
 import {message} from "antd";
-import {albumHasTracklists} from "./albumHasTracklists";
 
 export function tracks(store) {
     store.on("@init", async () => {

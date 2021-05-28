@@ -7,6 +7,7 @@ import {useState} from "react";
 import Login from "./components/login/Login";
 import Registration from "./components/login/Registration";
 import { CSVLink } from "react-csv";
+import AlbumEditor from "./components/album-editor";
 
 function App() {
     const [localAlbums, setLocalAlbums] = useState([]);
@@ -19,6 +20,9 @@ function App() {
         <BrowserRouter>
             <Route path="/login">
                 <Login setLoggedUser={setLoggedUser}/>
+            </Route>
+            <Route path="/album/:identifyingNumber">
+                <AlbumEditor />
             </Route>
             <Route path="/registration">
                 <Registration/>

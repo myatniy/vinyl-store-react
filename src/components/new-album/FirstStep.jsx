@@ -1,19 +1,23 @@
-import {Button, Form, Input, Select} from "antd";
+import {Button, Form, Input, message, Select} from "antd";
 import {useStoreon} from "storeon/react";
 import {postRecord} from "../../api";
 import {parseAlbumObject} from "../../utils";
 
 export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedAlbum, loggedUser}) {
     const {
+        albums,
         countries,
         releasedDates,
         labels,
         styles,
         artists,
         albumTypes
-    } = useStoreon("countries", "releasedDates", "labels", "styles", "artists", "albumTypes");
+    } = useStoreon("albums", "countries", "releasedDates", "labels", "styles", "artists", "albumTypes");
 
     const onFinish = async ({Name, IdentifyingNumber, CountryId, ReleasedId, LabelId, StyleId, ArtistId, TypeOfAlbumId}) => {
+        if (albums.find(album => album.identifyingNumber === parseInt(IdentifyingNumber)))
+            return message.error(`Значение [${IdentifyingNumber}] уже существует`);
+
         const date = new Date();
         const payload = {
             "Name": Name,
@@ -53,7 +57,7 @@ export default function FirstStep({onNextClick, setLocalAlbums, setLastInsertedA
             name="IdentifyingNumber"
             rules={[{required: true, message: "Нельзя оставлять пустым"}]}
         >
-            <Input/>
+            <Input type="text"/>
         </Form.Item>
 
         <Form.Item
